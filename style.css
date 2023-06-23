@@ -1,1 +1,32 @@
-
+* {
+    margin: 0px;
+    padding: 0px;
+}
+:root {
+    --main-color: red;
+    background-color: var();
+}
+header {
+    display: grid;
+    grid-auto-flow: column;
+}
+.today {
+    display:grid;
+    grid-template-columns: auto auto;
+    border: solid 1px red;
+}
+.forecast {
+    border: solid 1px blue;
+    height:200px;
+    display: grid;
+    grid-auto-flow: column;
+}
+.day {
+    border: solid 1px red;
+    height: 200px;
+    display: grid;
+    /* justify-content: center; */
+}
+.date, .maxTemp, .minTemp, .chanceRain, .conditionIcon, .sunrise, .sunset {
+    justify-self: center;
+}
