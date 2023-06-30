@@ -4,6 +4,17 @@
 }
 :root {
     --main-color: red;
+    --cold0: white;
+    --cold10: lightblue;
+    --cold30: darkblue;
+    --med40:blue;
+    --med50:teal;
+    --med60:green;
+    --warm70: yellow;
+    --warm80: orange;
+    --hot90:red;
+    --hot100:darkred;
+
     background-color: var();
 }
 header {
@@ -25,7 +36,7 @@ header {
     border: solid 1px red;
     height: 200px;
     display: grid;
-    /* justify-content: center; */
+    background-color: ;
 }
 .date, .maxTemp, .minTemp, .chanceRain, .conditionIcon, .sunrise, .sunset {
     justify-self: center;

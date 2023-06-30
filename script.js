@@ -3,7 +3,7 @@ let weatherData = "";
 async function getWeather(city) {
   //Input weatherAPI key to run
   let response = await fetch(
-    "http://api.weatherapi.com/v1/forecast.json?key=<YOUR_KEY_HERE>&q=" +
+    "http://api.weatherapi.com/v1/forecast.json?key=f79cafe4f5b64fae8eb151041232106&q=" +
       city +
       "&days=4",
     { mode: "cors" }
