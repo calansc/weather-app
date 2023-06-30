@@ -21,6 +21,9 @@ header {
     display: grid;
     grid-auto-flow: column;
 }
+.updated {
+    text-align: right;
+}
 .today {
     display:grid;
     grid-template-columns: auto auto;

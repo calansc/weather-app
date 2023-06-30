@@ -136,6 +136,13 @@ function populate() {
       "Sunset: " + weatherData.forecast.forecastday[i + 1].astro.sunset;
     day[i].appendChild(sunset);
   }
+  // Forecast Days Above
+  // Header below************
+
+  const lastUpdated = document.querySelector("updated");
+  lastUpdated[0].textContent =
+    "Last Updated: " + weatherData.current.last_updated_date;
+  // ^^ may need to update variable for this
 }
 
 const userCity = document.querySelector("input");
