@@ -28,6 +28,8 @@ header {
     display:grid;
     grid-template-columns: auto auto;
     border: solid 1px red;
+    /* larger font in today compared to future days */
+    /* graphics for background depending on current weather. use icon name? */
 }
 .forecast {
     border: solid 1px blue;

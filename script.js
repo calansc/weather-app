@@ -20,7 +20,6 @@ function processWeatherData() {
   delete weatherData.current.last_updated_epoch;
   delete weatherData.current.pressure_in;
   delete weatherData.current.pressure_mb;
-  // delete weatherData.current.last_updated_epoch;
   console.log(weatherData);
   populate();
 }
@@ -84,8 +83,14 @@ function populate() {
   sunset.textContent = "Sunset: " + weatherData.current.astro.sunset;
   today[0].appendChild(sunset);
 
+  // Today Weather Background Graphics
+  if (weatherData.current.day.conditionIcon === "PLACEHOLDER") {
+    today[0].setAttribute(".today { background-image: sunny.jph");
+  } // Elses for different backgrounds/condition icons
+
   // Today above **********************************
   // Forecast days below
+
   const day = document.getElementsByClassName("day");
   for (let i = 0; i < day.length; i++) {
     while (day[i].firstChild) {
