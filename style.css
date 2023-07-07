@@ -26,7 +26,7 @@ header {
 }
 .today {
     display:grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto;
     border: solid 1px red;
     /* larger font in today compared to future days */
     /* graphics for background depending on current weather. use icon name? */
@@ -41,8 +41,8 @@ header {
     border: solid 1px red;
     height: 200px;
     display: grid;
-    background-color: ;
+    /* background-color: ; */
 }
-.date, .maxTemp, .minTemp, .chanceRain, .conditionIcon, .sunrise, .sunset {
+.date, .maxTemp, .minTemp, .chanceRain, .conditionIcon, .sunrise, .sunset, .currentTemp {
     justify-self: center;
 }

@@ -22,6 +22,7 @@ function processWeatherData() {
   delete weatherData.current.pressure_mb;
   console.log(weatherData);
   populate();
+  populateHeader();
 }
 
 function populate() {
@@ -47,46 +48,52 @@ function populate() {
   //   today[0].appendChild(div2);
   // }
 
-  let date = document.createElement("div");
-  date.classList.add("date");
-  date.textContent = weatherData.current.date;
-  today[0].appendChild(date);
+  let currentTemp = document.createElement("div");
+  currentTemp.classList.add("currentTemp");
+  currentTemp.textContent = "Currently: " + weatherData.current.temp_f;
+  today[0].appendChild(currentTemp);
 
   let maxTemp = document.createElement("div");
   maxTemp.classList.add("maxTemp");
-  maxTemp.textContent = "High: " + weatherData.current.day.maxtemp_f + "\xB0";
+  maxTemp.textContent =
+    "High: " + weatherData.forecast.forecastday[0].day.maxtemp_f + "\xB0";
   today[0].appendChild(maxTemp);
 
   let minTemp = document.createElement("div");
   minTemp.classList.add("minTemp");
-  minTemp.textContent = "Low: " + weatherData.current.day.mintemp_f + "\xB0";
+  minTemp.textContent =
+    "Low: " + weatherData.forecast.forecastday[0].day.mintemp_f + "\xB0";
   today[0].appendChild(minTemp);
 
   let chanceRain = document.createElement("div");
   chanceRain.classList.add("chanceRain");
   chanceRain.textContent =
-    "Rain: " + weatherData.current.day.daily_chance_of_rain + "%";
+    "Rain: " +
+    weatherData.forecast.forecastday[0].day.daily_chance_of_rain +
+    "%";
   today[0].appendChild(chanceRain);
 
   let conditionIcon = document.createElement("img");
   conditionIcon.classList.add("conditionIcon");
-  conditionIcon.src = weatherData.current.day.condition.icon;
+  conditionIcon.src = weatherData.forecast.forecastday[0].day.condition.icon;
   today[0].appendChild(conditionIcon);
 
   let sunrise = document.createElement("div");
   sunrise.classList.add("sunrise");
-  sunrise.textContent = "Sunrise: " + weatherData.current.astro.sunrise;
+  sunrise.textContent =
+    "Sunrise: " + weatherData.forecast.forecastday[0].astro.sunrise;
   today[0].appendChild(sunrise);
 
   let sunset = document.createElement("div");
   sunset.classList.add("sunset");
-  sunset.textContent = "Sunset: " + weatherData.current.astro.sunset;
+  sunset.textContent =
+    "Sunset: " + weatherData.forecast.forecastday[0].astro.sunset;
   today[0].appendChild(sunset);
 
-  // Today Weather Background Graphics
-  if (weatherData.current.day.conditionIcon === "PLACEHOLDER") {
-    today[0].setAttribute(".today { background-image: sunny.jph");
-  } // Elses for different backgrounds/condition icons
+  // Today Weather Background Graphics -- today only or full page??
+  // if (weatherData.current.day.conditionIcon === "PLACEHOLDER") {
+  //   today[0].setAttribute(".today { background-image: sunny.jpg");
+  // } // Elses for different backgrounds/condition icons
 
   // Today above **********************************
   // Forecast days below
@@ -142,12 +149,13 @@ function populate() {
     day[i].appendChild(sunset);
   }
   // Forecast Days Above
-  // Header below************
+}
 
-  const lastUpdated = document.querySelector("updated");
+function populateHeader() {
+  const lastUpdated = document.getElementsByClassName("updated");
   lastUpdated[0].textContent =
-    "Last Updated: " + weatherData.current.last_updated_date;
-  // ^^ may need to update variable for this
+    "Last Updated: " + weatherData.current.last_updated;
+  // change to say 'today' at xx time if it was updated today
 }
 
 const userCity = document.querySelector("input");
