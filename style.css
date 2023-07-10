@@ -1,6 +1,10 @@
 * {
     margin: 0px;
     padding: 0px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    /* font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif; */
+    /* font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; */
+    /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
 }
 :root {
     --main-color: red;
@@ -25,11 +29,34 @@ header {
     text-align: right;
 }
 .today {
+    background-color: gray;
     display:grid;
     grid-template-columns: auto;
+    grid-template-rows: auto auto auto auto auto 1fr auto;
     border: solid 1px red;
+    height: 50vh;
+    padding-top:8vh;
+    padding-bottom: 8vh; 
+    color:white;   
+    font-size: 1.3rem;
     /* larger font in today compared to future days */
     /* graphics for background depending on current weather. use icon name? */
+}
+.cityName {
+    font-size: 2rem;
+}
+.currentTemp {
+    font-size: 2rem;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.dailyCondition {
+    margin-top: auto;
+    margin-bottom: auto;
+    display: grid;
+    grid-auto-flow: column;
+    /* max-width: 100%; */
+    overflow-x:scroll;
 }
 .forecast {
     border: solid 1px blue;
@@ -43,6 +70,7 @@ header {
     display: grid;
     /* background-color: ; */
 }
-.date, .maxTemp, .minTemp, .chanceRain, .conditionIcon, .sunrise, .sunset, .currentTemp {
+.date, .dailyTemp, .currentCond, .maxTemp, .minTemp, .chanceRain, .conditionIcon, .sunrise, .sunset, .currentTemp, .cityName{
     justify-self: center;
+    align-self: center;
 }

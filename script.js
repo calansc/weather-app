@@ -48,22 +48,37 @@ function populate() {
   //   today[0].appendChild(div2);
   // }
 
+  let cityName = document.createElement("div");
+  cityName.classList.add("cityName");
+  cityName.textContent = weatherData.location.name;
+  today[0].appendChild(cityName);
+
   let currentTemp = document.createElement("div");
   currentTemp.classList.add("currentTemp");
-  currentTemp.textContent = "Currently: " + weatherData.current.temp_f;
+  currentTemp.textContent = weatherData.current.temp_f + "\xB0";
   today[0].appendChild(currentTemp);
 
-  let maxTemp = document.createElement("div");
-  maxTemp.classList.add("maxTemp");
-  maxTemp.textContent =
-    "High: " + weatherData.forecast.forecastday[0].day.maxtemp_f + "\xB0";
-  today[0].appendChild(maxTemp);
+  let currentCond = document.createElement("div");
+  currentCond.classList.add("currentCond");
+  currentCond.textContent = weatherData.current.condition.text;
+  today[0].appendChild(currentCond);
 
-  let minTemp = document.createElement("div");
-  minTemp.classList.add("minTemp");
-  minTemp.textContent =
-    "Low: " + weatherData.forecast.forecastday[0].day.mintemp_f + "\xB0";
-  today[0].appendChild(minTemp);
+  let dailyTemp = document.createElement("div");
+  dailyTemp.classList.add("dailyTemp");
+  dailyTemp.textContent =
+    "H:" +
+    weatherData.forecast.forecastday[0].day.maxtemp_f +
+    "\xB0 " +
+    "  L:" +
+    weatherData.forecast.forecastday[0].day.mintemp_f +
+    "\xB0";
+  today[0].appendChild(dailyTemp);
+
+  // let minTemp = document.createElement("div");
+  // minTemp.classList.add("minTemp");
+  // minTemp.textContent =
+  //   "L: " + weatherData.forecast.forecastday[0].day.mintemp_f + "\xB0";
+  // today[0].appendChild(minTemp);
 
   let chanceRain = document.createElement("div");
   chanceRain.classList.add("chanceRain");
@@ -73,27 +88,62 @@ function populate() {
     "%";
   today[0].appendChild(chanceRain);
 
-  let conditionIcon = document.createElement("img");
-  conditionIcon.classList.add("conditionIcon");
-  conditionIcon.src = weatherData.forecast.forecastday[0].day.condition.icon;
-  today[0].appendChild(conditionIcon);
+  // Daily condition
+  let dailyCondition = document.createElement("div");
+  dailyCondition.classList.add("dailyCondition");
+  today[0].appendChild(dailyCondition);
+
+  for (i = 0; i < 24; i++) {
+    let hourContainer = document.createElement("div");
+    hourContainer.classList.add("hourContainer");
+
+    let hourlyTime = document.createElement("div");
+    hourlyTime.classList.add("hourlyTime");
+    hourlyTime.textContent = i + "pm";
+    hourContainer.appendChild(hourlyTime);
+
+    let hourlyCondition = document.createElement("img");
+    hourlyCondition.classList.add("hourlyCondition");
+    hourlyCondition.src =
+      weatherData.forecast.forecastday[0].hour[i].condition.icon;
+    hourContainer.appendChild(hourlyCondition);
+
+    let hourlyTemp = document.createElement("div");
+    hourlyTemp.classList.add("hourlyTemp");
+    hourlyTemp.textContent =
+      weatherData.forecast.forecastday[0].hour[i].temp_f + "\xB0";
+    hourContainer.appendChild(hourlyTemp);
+
+    dailyCondition.appendChild(hourContainer);
+  }
+
+  // let conditionIcon = document.createElement("img");
+  // conditionIcon.classList.add("conditionIcon");
+  // conditionIcon.src = weatherData.current.condition.icon;
+  // dailyCondition.appendChild(conditionIcon);
 
   let sunrise = document.createElement("div");
   sunrise.classList.add("sunrise");
   sunrise.textContent =
-    "Sunrise: " + weatherData.forecast.forecastday[0].astro.sunrise;
+    "Sunrise: " +
+    weatherData.forecast.forecastday[0].astro.sunrise +
+    " Sunset: " +
+    weatherData.forecast.forecastday[0].astro.sunset;
   today[0].appendChild(sunrise);
 
-  let sunset = document.createElement("div");
-  sunset.classList.add("sunset");
-  sunset.textContent =
-    "Sunset: " + weatherData.forecast.forecastday[0].astro.sunset;
-  today[0].appendChild(sunset);
+  // let sunset = document.createElement("div");
+  // sunset.classList.add("sunset");
+  // sunset.textContent =
+  //   "Sunset: " + weatherData.forecast.forecastday[0].astro.sunset;
+  // today[0].appendChild(sunset);
 
   // Today Weather Background Graphics -- today only or full page??
-  // if (weatherData.current.day.conditionIcon === "PLACEHOLDER") {
-  //   today[0].setAttribute(".today { background-image: sunny.jpg");
-  // } // Elses for different backgrounds/condition icons
+  if (weatherData.current.condition.text === "Sunny") {
+    document.getElementsByClassName("today")[0].style.backgroundImage =
+      "url('day-clear-dave.jpg')";
+    document.getElementsByClassName("today")[0].style.backgroundSize = "cover";
+  } // Elses for different backgrounds/condition icons
+  // Background changes for day/night
 
   // Today above **********************************
   // Forecast days below
