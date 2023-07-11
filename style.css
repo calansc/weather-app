@@ -18,25 +18,34 @@
     --warm80: orange;
     --hot90:red;
     --hot100:darkred;
+    --bgblue:rgba(0, 26, 255, 0.30);
+    --borrad: 8px;
 
     background-color: var();
 }
 header {
     display: grid;
     grid-auto-flow: column;
+    color:white;
+    padding: 4px;
+    background-color: var(--bgblue);
 }
 .updated {
     text-align: right;
 }
+.weather {
+    background-color: rgb(0, 78, 180);
+}
 .today {
-    background-color: gray;
     display:grid;
     grid-template-columns: auto;
     grid-template-rows: auto auto auto auto auto 1fr auto;
-    border: solid 1px red;
-    height: 50vh;
-    padding-top:8vh;
-    padding-bottom: 8vh; 
+    /* border: solid 1px red; */
+    height: 40vh;
+    padding-top:3vh;
+    padding-bottom: 0; 
+    padding-left: 3vw;
+    padding-right: 3vw;
     color:white;   
     font-size: 1.3rem;
     /* larger font in today compared to future days */
@@ -57,6 +66,9 @@ header {
     grid-auto-flow: column;
     /* max-width: 100%; */
     overflow-x:scroll;
+    background-color: var(--bgblue);
+    border-radius: var(--borrad);
+    padding-top:12px;
 }
 .dailyCondition::-webkit-scrollbar {
     height: 12px;
@@ -65,8 +77,8 @@ header {
 /* .dailyCondition::-webkit-scrollbar-button       {  }
 .dailyCondition::-webkit-scrollbar-track-piece  {  } */
 .dailyCondition::-webkit-scrollbar-thumb        { 
-    background-color: rgba(0, 0, 255, 0.35);
-    border-radius:8px;
+    background-color: rgba(0, 0, 255, 0.7);
+    border-radius: var(--borrad);
  }
 /* .dailyCondition::-webkit-scrollbar-corner       {  }
 .dailyCondition::-webkit-scrollbar              {  }
@@ -87,16 +99,23 @@ header {
     text-align: center;
 }
 .forecast {
-    border: solid 1px blue;
+    /* border: solid 1px blue; */
     height:200px;
     display: grid;
     grid-auto-flow: column;
+    gap: 3vw;
+    padding-left: 3vw;
+    padding-right: 3vw;
+    padding-bottom: 2vh;
+    padding-top: 1.5vh;
+    color: white;
 }
 .day {
-    border: solid 1px red;
+    /* border solid 1px red; */
     height: 200px;
     display: grid;
-    /* background-color: ; */
+    background-color:  var(--bgblue);
+    border-radius: var(--borrad);
 }
 .date, .dailyTemp, .currentCond, .maxTemp, .minTemp, .chanceRain, .conditionIcon, .sunrise, .sunset, .currentTemp, .cityName{
     justify-self: center;

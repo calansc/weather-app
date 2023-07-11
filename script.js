@@ -168,9 +168,15 @@ function populate() {
 
   // Today Weather Background Graphics -- today only or full page??
   if (weatherData.current.condition.text === "Sunny") {
-    document.getElementsByClassName("today")[0].style.backgroundImage =
+    document.getElementsByClassName("weather")[0].style.backgroundImage =
       "url('day-clear-dave.jpg')";
-    document.getElementsByClassName("today")[0].style.backgroundSize = "cover";
+    document.getElementsByClassName("weather")[0].style.backgroundSize =
+      "cover";
+  } else if (weatherData.current.condition.text === "Partly cloudy") {
+    document.getElementsByClassName("weather")[0].style.backgroundImage =
+      "url('night-clear-timothee-duran.jpg')";
+    document.getElementsByClassName("weather")[0].style.backgroundSize =
+      "cover";
   } // Elses for different backgrounds/condition icons
   // Background changes for day/night
 
@@ -233,7 +239,7 @@ function populate() {
 function populateHeader() {
   const lastUpdated = document.getElementsByClassName("updated");
   lastUpdated[0].textContent =
-    "Last Updated: " + weatherData.current.last_updated;
+    "Updated: " + weatherData.current.last_updated.slice(5);
   // change to say 'today' at xx time if it was updated today
 }
 
