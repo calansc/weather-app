@@ -58,10 +58,24 @@ header {
     /* max-width: 100%; */
     overflow-x:scroll;
 }
+.dailyCondition::-webkit-scrollbar {
+    height: 12px;
+    background-color: rgba(0, 0, 255, 0);
+}
+/* .dailyCondition::-webkit-scrollbar-button       {  }
+.dailyCondition::-webkit-scrollbar-track-piece  {  } */
+.dailyCondition::-webkit-scrollbar-thumb        { 
+    background-color: rgba(0, 0, 255, 0.35);
+    border-radius:8px;
+ }
+/* .dailyCondition::-webkit-scrollbar-corner       {  }
+.dailyCondition::-webkit-scrollbar              {  }
+.dailyCondition::-webkit-resizer                {  } 
+.dailyCondition::-webkit-scrollbar-track        {  } */
+
 .hourlyImgContainer {
     display: grid;
     height: 94px;;
-
 }
 .hourlyCondition {
     align-self: center;

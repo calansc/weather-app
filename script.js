@@ -105,7 +105,6 @@ function populate() {
     if (i > 23) {
       k = i - 24;
     }
-    console.log(j);
     let hourContainer = document.createElement("div");
     hourContainer.classList.add("hourContainer");
 
