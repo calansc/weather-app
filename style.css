@@ -58,6 +58,20 @@ header {
     /* max-width: 100%; */
     overflow-x:scroll;
 }
+.hourlyImgContainer {
+    display: grid;
+    height: 94px;;
+
+}
+.hourlyCondition {
+    align-self: center;
+}
+.hourlyPercent {
+    font-size: 1.1rem;
+}
+.hourlyTime, .hourlyCondition, .hourlyTemp, .hourlyPercent {
+    text-align: center;
+}
 .forecast {
     border: solid 1px blue;
     height:200px;

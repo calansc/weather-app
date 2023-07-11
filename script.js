@@ -93,25 +93,55 @@ function populate() {
   dailyCondition.classList.add("dailyCondition");
   today[0].appendChild(dailyCondition);
 
-  for (i = 0; i < 24; i++) {
+  let currentTime = parseInt(weatherData.current.last_updated.slice(10, 13));
+  console.log(currentTime);
+
+  for (i = currentTime; i < currentTime + 24; i++) {
+    let j = 0;
+    if (i > 23) {
+      j = 1;
+    }
+    let k = i;
+    if (i > 23) {
+      k = i - 24;
+    }
+    console.log(j);
     let hourContainer = document.createElement("div");
     hourContainer.classList.add("hourContainer");
 
     let hourlyTime = document.createElement("div");
     hourlyTime.classList.add("hourlyTime");
-    hourlyTime.textContent = i + "pm";
+    hourlyTime.textContent = k + ":00";
     hourContainer.appendChild(hourlyTime);
+
+    let hourlyImgContainer = document.createElement("div");
+    hourlyImgContainer.classList.add("hourlyImgContainer");
+    hourContainer.appendChild(hourlyImgContainer);
 
     let hourlyCondition = document.createElement("img");
     hourlyCondition.classList.add("hourlyCondition");
     hourlyCondition.src =
-      weatherData.forecast.forecastday[0].hour[i].condition.icon;
-    hourContainer.appendChild(hourlyCondition);
+      weatherData.forecast.forecastday[j].hour[k].condition.icon;
+    hourlyImgContainer.appendChild(hourlyCondition);
+
+    let hourlyPercent = document.createElement("div");
+    hourlyPercent.classList.add("hourlyPercent");
+    if (
+      weatherData.forecast.forecastday[j].hour[k].chance_of_rain !== 0 ||
+      weatherData.forecast.forecastday[j].hour[k].chance_of_snow !== 0
+    ) {
+      let chance = Math.max(
+        weatherData.forecast.forecastday[j].hour[k].chance_of_rain,
+        weatherData.forecast.forecastday[j].hour[k].chance_of_snow
+      );
+      hourlyPercent.textContent = chance + "%";
+      hourlyImgContainer.appendChild(hourlyPercent);
+    }
 
     let hourlyTemp = document.createElement("div");
     hourlyTemp.classList.add("hourlyTemp");
     hourlyTemp.textContent =
-      weatherData.forecast.forecastday[0].hour[i].temp_f + "\xB0";
+      weatherData.forecast.forecastday[j].hour[k].temp_f + "\xB0";
     hourContainer.appendChild(hourlyTemp);
 
     dailyCondition.appendChild(hourContainer);
