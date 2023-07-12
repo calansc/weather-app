@@ -2,15 +2,21 @@ let weatherData = "";
 
 async function getWeather(city) {
   //Input weatherAPI key to run
-  let response = await fetch(
-    "http://api.weatherapi.com/v1/forecast.json?key=f79cafe4f5b64fae8eb151041232106&q=" +
-      city +
-      "&days=4&alerts=yes",
-    { mode: "cors" }
-  );
-  weatherData = await response.json();
-  //   console.log(weatherData);
-  processWeatherData();
+  try {
+    let response = await fetch(
+      "http://api.weatherapi.com/v1/forecast.json?key=f79cafe4f5b64fae8eb151041232106&q=" +
+        city +
+        "&days=4&alerts=yes",
+      { mode: "cors" }
+    );
+    weatherData = await response.json();
+    //   console.log(weatherData);
+    processWeatherData();
+  } catch (error) {
+    alert(
+      "An Error has occurred fetching weather data! Please try your search again."
+    );
+  }
 }
 getWeather("cleveland");
 
@@ -23,6 +29,7 @@ function processWeatherData() {
   console.log(weatherData);
   populate();
   populateHeader();
+  return weatherData;
 }
 
 function populate() {
@@ -34,8 +41,22 @@ function populate() {
     weatherData.location.region;
 
   const today = document.getElementsByClassName("today");
+  const forecastDiv = document.getElementsByClassName("forecast");
   while (today[0].firstChild) {
     today[0].removeChild(today[0].lastChild);
+  }
+  if (today[0].classList.contains("fade-in")) {
+    today[0].classList.remove("fade-in");
+    forecastDiv[0].classList.remove("fade-in");
+    //offsetWidth queries the dom to force the browser
+    //not to batch changes and performs a reflow of the page now
+    today[0].offsetWidth;
+    forecastDiv[0].offsetWidth;
+    today[0].classList.add("fade-in");
+    forecastDiv[0].classList.add("fade-in");
+  } else {
+    today[0].classList.add("fade-in");
+    forecastDiv[0].classList.add("fade-in");
   }
 
   let cityName = document.createElement("div");
@@ -94,7 +115,11 @@ function populate() {
 
     let hourlyTime = document.createElement("div");
     hourlyTime.classList.add("hourlyTime");
-    hourlyTime.textContent = k + ":00";
+    if (currentTime === i) {
+      hourlyTime.textContent = "Now";
+    } else {
+      hourlyTime.textContent = k + ":00";
+    }
     hourContainer.appendChild(hourlyTime);
 
     let hourlyImgContainer = document.createElement("div");
@@ -130,17 +155,16 @@ function populate() {
     dailyCondition.appendChild(hourContainer);
   }
 
-  let sunrise = document.createElement("div");
-  sunrise.classList.add("sunrise");
-  sunrise.textContent =
+  let sunriseSet = document.createElement("div");
+  sunriseSet.classList.add("sunriseSet");
+  sunriseSet.textContent =
     "Sunrise: " +
     weatherData.forecast.forecastday[0].astro.sunrise +
     " Sunset: " +
     weatherData.forecast.forecastday[0].astro.sunset;
-  today[0].appendChild(sunrise);
+  today[0].appendChild(sunriseSet);
 
   //Set background image for page
-  //Weather Code Info --- https://www.weatherapi.com/docs/weather_conditions.json
   backgroundWeatherTime(
     weatherData.current.condition.code,
     weatherData.current.last_updated.slice(10, 13)
@@ -157,7 +181,8 @@ function populate() {
   for (let i = 0; i < day.length; i++) {
     let date = document.createElement("div");
     date.classList.add("date");
-    date.textContent = weatherData.forecast.forecastday[i + 1].date;
+    // date.textContent = weatherData.forecast.forecastday[i + 1].date;
+    date.textContent = dayName(weatherData.forecast.forecastday[i + 1].date);
     day[i].appendChild(date);
 
     let maxTemp = document.createElement("div");
@@ -218,14 +243,14 @@ userCity.addEventListener("keydown", function (entry) {
 
 function backgroundWeatherTime(condition, time) {
   time = parseInt(time);
-  console.log(condition, time);
+  // console.log(condition, time);
   let sunriseHour = weatherData.forecast.forecastday[0].astro.sunrise.slice(
     0,
     2
   );
   let sunsetHour =
     parseInt(weatherData.forecast.forecastday[0].astro.sunset.slice(0, 2)) + 12;
-  console.log(sunriseHour, sunsetHour);
+  // console.log(sunriseHour, sunsetHour);
   if (time < sunriseHour || time > sunsetHour) {
     backgroundWeatherNight(condition);
   } else {
@@ -233,19 +258,20 @@ function backgroundWeatherTime(condition, time) {
   }
 }
 function backgroundWeatherNight(condition) {
-  if (weatherData.current.condition.text === "Sunny") {
-    backgroundWeather("day-clear-dave.jpg");
-  } else if (weatherData.current.condition.text === "Partly cloudy") {
-    backgroundWeather("day-partly-cloudy-ritam.jpg");
+  if (condition === 1000) {
+    backgroundWeather("night-clear-timothee-duran.jpg");
+  } else if (condition === 1003 || condition === 1006 || condition === 1009) {
+    backgroundWeather("night-cloudy-quinton.jpg");
   } else {
-    backgroundWeather("night-clear-timethee-duran.jpg");
+    backgroundWeather("night-clear-timothee-duran.jpg");
   }
 }
+//Weather Code Info - https://www.weatherapi.com/docs/weather_conditions.json
 function backgroundWeatherDay(condition) {
   if (condition === 1000) {
     backgroundWeather("day-clear-dave.jpg");
   } else if (condition === 1003) {
-    backgroundWeather("day-partly-cloudy-ritam.jpg");
+    backgroundWeather("day-partly-cloudy-em.jpg");
   } else if (condition === 1006 || condition === 1009) {
     backgroundWeather("day-cloudy-tobias.jpg");
   } else if (
@@ -271,7 +297,7 @@ function backgroundWeatherDay(condition) {
     condition === 1243 ||
     condition === 1246
   ) {
-    backgroundWeather("day-rainy-nick.jpg");
+    backgroundWeather("day-rainy-valentin.jpg");
   }
 }
 
@@ -286,4 +312,9 @@ function backgroundWeather(background) {
   // -moz-background-size: cover;
   // -o-background-size: cover;
   // background-size: cover;
+}
+
+function dayName(dateString) {
+  let date = new Date(dateString.replace(/-/g, "/").replace(/T.+/, ""));
+  return date.toLocaleDateString("en-US", { weekday: "long" });
 }
