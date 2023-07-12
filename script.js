@@ -5,7 +5,7 @@ async function getWeather(city) {
   let response = await fetch(
     "http://api.weatherapi.com/v1/forecast.json?key=f79cafe4f5b64fae8eb151041232106&q=" +
       city +
-      "&days=4",
+      "&days=4&alerts=yes",
     { mode: "cors" }
   );
   weatherData = await response.json();
@@ -37,16 +37,6 @@ function populate() {
   while (today[0].firstChild) {
     today[0].removeChild(today[0].lastChild);
   }
-  // for (let i = 0; i < Object.keys(weatherData.current).length; i++) {
-  //   let div = document.createElement("div");
-  //   div.classList.add("keys");
-  //   div.textContent = Object.keys(weatherData.current)[i];
-  //   let div2 = document.createElement("div");
-  //   div2.classList.add("values");
-  //   div2.textContent = Object.values(weatherData.current)[i];
-  //   today[0].appendChild(div);
-  //   today[0].appendChild(div2);
-  // }
 
   let cityName = document.createElement("div");
   cityName.classList.add("cityName");
@@ -74,12 +64,6 @@ function populate() {
     "\xB0";
   today[0].appendChild(dailyTemp);
 
-  // let minTemp = document.createElement("div");
-  // minTemp.classList.add("minTemp");
-  // minTemp.textContent =
-  //   "L: " + weatherData.forecast.forecastday[0].day.mintemp_f + "\xB0";
-  // today[0].appendChild(minTemp);
-
   let chanceRain = document.createElement("div");
   chanceRain.classList.add("chanceRain");
   chanceRain.textContent =
@@ -94,7 +78,7 @@ function populate() {
   today[0].appendChild(dailyCondition);
 
   let currentTime = parseInt(weatherData.current.last_updated.slice(10, 13));
-  console.log(currentTime);
+  // console.log(currentTime);
 
   for (i = currentTime; i < currentTime + 24; i++) {
     let j = 0;
@@ -146,11 +130,6 @@ function populate() {
     dailyCondition.appendChild(hourContainer);
   }
 
-  // let conditionIcon = document.createElement("img");
-  // conditionIcon.classList.add("conditionIcon");
-  // conditionIcon.src = weatherData.current.condition.icon;
-  // dailyCondition.appendChild(conditionIcon);
-
   let sunrise = document.createElement("div");
   sunrise.classList.add("sunrise");
   sunrise.textContent =
@@ -160,26 +139,12 @@ function populate() {
     weatherData.forecast.forecastday[0].astro.sunset;
   today[0].appendChild(sunrise);
 
-  // let sunset = document.createElement("div");
-  // sunset.classList.add("sunset");
-  // sunset.textContent =
-  //   "Sunset: " + weatherData.forecast.forecastday[0].astro.sunset;
-  // today[0].appendChild(sunset);
-
-  // Today Weather Background Graphics -- today only or full page??
-  if (weatherData.current.condition.text === "Sunny") {
-    document.getElementsByClassName("weather")[0].style.backgroundImage =
-      "url('day-clear-dave.jpg')";
-    document.getElementsByClassName("weather")[0].style.backgroundSize =
-      "cover";
-  } else if (weatherData.current.condition.text === "Partly cloudy") {
-    document.getElementsByClassName("weather")[0].style.backgroundImage =
-      "url('night-clear-timothee-duran.jpg')";
-    document.getElementsByClassName("weather")[0].style.backgroundSize =
-      "cover";
-  } // Elses for different backgrounds/condition icons
-  // Background changes for day/night
-
+  //Set background image for page
+  //Weather Code Info --- https://www.weatherapi.com/docs/weather_conditions.json
+  backgroundWeatherTime(
+    weatherData.current.condition.code,
+    weatherData.current.last_updated.slice(10, 13)
+  );
   // Today above **********************************
   // Forecast days below
 
@@ -250,3 +215,75 @@ userCity.addEventListener("keydown", function (entry) {
     getWeather(userEntry);
   }
 });
+
+function backgroundWeatherTime(condition, time) {
+  time = parseInt(time);
+  console.log(condition, time);
+  let sunriseHour = weatherData.forecast.forecastday[0].astro.sunrise.slice(
+    0,
+    2
+  );
+  let sunsetHour =
+    parseInt(weatherData.forecast.forecastday[0].astro.sunset.slice(0, 2)) + 12;
+  console.log(sunriseHour, sunsetHour);
+  if (time < sunriseHour || time > sunsetHour) {
+    backgroundWeatherNight(condition);
+  } else {
+    backgroundWeatherDay(condition);
+  }
+}
+function backgroundWeatherNight(condition) {
+  if (weatherData.current.condition.text === "Sunny") {
+    backgroundWeather("day-clear-dave.jpg");
+  } else if (weatherData.current.condition.text === "Partly cloudy") {
+    backgroundWeather("day-partly-cloudy-ritam.jpg");
+  } else {
+    backgroundWeather("night-clear-timethee-duran.jpg");
+  }
+}
+function backgroundWeatherDay(condition) {
+  if (condition === 1000) {
+    backgroundWeather("day-clear-dave.jpg");
+  } else if (condition === 1003) {
+    backgroundWeather("day-partly-cloudy-ritam.jpg");
+  } else if (condition === 1006 || condition === 1009) {
+    backgroundWeather("day-cloudy-tobias.jpg");
+  } else if (
+    condition === 1087 ||
+    condition === 1273 ||
+    condition === 1276 ||
+    condition === 1279 ||
+    condition === 1282
+  ) {
+    backgroundWeather("day-thunderstorm-brandon.jpg");
+  } else if (
+    condition === 1030 ||
+    condition === 1063 ||
+    condition === 1150 ||
+    condition === 1153 ||
+    condition === 1180 ||
+    condition === 1183 ||
+    condition === 1186 ||
+    condition === 1189 ||
+    condition === 1192 ||
+    condition === 1195 ||
+    condition === 1240 ||
+    condition === 1243 ||
+    condition === 1246
+  ) {
+    backgroundWeather("day-rainy-nick.jpg");
+  }
+}
+
+function backgroundWeather(background) {
+  let page = document.querySelector("html");
+  page.style.backgroundImage = "url(" + background + ")";
+  page.style.backgroundRepeat = "no-repeat";
+  page.style.backgroundPosition = "center center";
+  page.style.backgroundAttachment = "fixed";
+  page.style.backgroundSize = "cover";
+  // -webkit-background-size: cover;
+  // -moz-background-size: cover;
+  // -o-background-size: cover;
+  // background-size: cover;
+}

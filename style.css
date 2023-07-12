@@ -18,11 +18,18 @@
     --warm80: orange;
     --hot90:red;
     --hot100:darkred;
-    --bgblue:rgba(0, 26, 255, 0.30);
+    --bgblue:rgba(0, 26, 255, 0.5);
     --borrad: 8px;
 
-    background-color: var();
 }
+
+html { 
+    /* background: url(night-clear-timothee-duran.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover; */
+  }
 header {
     display: grid;
     grid-auto-flow: column;
@@ -34,7 +41,7 @@ header {
     text-align: right;
 }
 .weather {
-    background-color: rgb(0, 78, 180);
+
 }
 .today {
     display:grid;
