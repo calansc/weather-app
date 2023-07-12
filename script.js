@@ -235,7 +235,7 @@ function populateHeader() {
 
 const userCity = document.querySelector("input");
 userCity.addEventListener("keydown", function (entry) {
-  if (entry.code === "Enter") {
+  if (entry.key === "Enter") {
     let userEntry = entry.target.value;
     getWeather(userEntry);
   }
